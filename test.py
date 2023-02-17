@@ -1,11 +1,12 @@
-from random import random
-from Vec import Vec
+l = ["a", 'b', 'c', 'd', 'e', 'f']
 
-# Nn = Vec(1, 0, 0)
-# Nn.rotate((0.5-random())*0.004)
+n = [1, 3, 5, 4, 2, 0]
+# n.sort()
 
 
-for i in range(100):
-    Nn = Vec(1, 0, 0)
-    Nn.rotate((0.5-random())*4)
-    print(Nn)
+# print([l[x] for x in n])
+
+# l = [l[x] for x in n]
+# print(l)
+
+print(n[:-1])

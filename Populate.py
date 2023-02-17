@@ -1,20 +1,19 @@
 from Vec import Vec
-import math
-from random import gauss, random, uniform
+from random import gauss, uniform
 from Engine import tick
 from WindowSingleton import WindowSingleton, ppm, hole_pos
 from Friction import Friction
-from graphics import Circle, Point
-from math import pi
+from graphics import Circle, Point, color_rgb
 
 class Populate:
-    def __init__(self, velocity, friction, position=Vec(0, 0, 0), dt=.01, mass=.045):
+    def __init__(self, velocity, friction, position=Vec(0, 0, 0), dt=.01, mass=.045, color=color_rgb(255, 255, 255)):
         self.veli = velocity
         self.position = position
         self.dead = False
         self.velocity = velocity
+        self.color = color
         self.sphere = Circle(Point((3.5 + self.position.x) * ppm, (7 - self.position.y) * ppm), 0.045 * ppm)
-        self.sphere.setFill("white")
+        self.sphere.setFill(color)
         self.sphere.draw(WindowSingleton().instance())
         self.deltaV = 0
         self.deltaP = 0
@@ -23,18 +22,22 @@ class Populate:
         self.mass = mass
     
     @staticmethod
-    def createNew(dt=.005):
+    def createNew(dt=.005, color=color_rgb(255, 255, 255)):
         mass = 0.021335 # kg
         
         friction = Friction()
-        return Populate(Vec(uniform(-5, 5), uniform(-5, 5), 0), friction, Vec(0, 0.2, 0), dt, mass=mass)
+        return Populate(Vec(uniform(-5, 5), uniform(-5, 5), 0), friction, Vec(0, 0.2, 0), dt, mass=mass, color=color)
 
     @staticmethod
-    def createFrom(populate, stdDev):
-        x = gauss(populate.veli.x, stdDev)
-        y = gauss(populate.veli.y, stdDev)
+    def createFrom(populate, stdDev, vel=None):
+        if vel == None:
+            x = gauss(populate.veli.x, stdDev)
+            y = gauss(populate.veli.y, stdDev)
+        else:
+            x = gauss(vel.x, stdDev)
+            y = gauss(vel.y, stdDev)
 
-        return Populate(Vec(x, y, 0), populate.friction, Vec(0, 0.2, 0), populate.dt, populate.mass)
+        return Populate(Vec(x, y, 0), populate.friction, Vec(0, 0.2, 0), populate.dt, populate.mass, populate.color)
 
         
     def update(self):
@@ -46,7 +49,7 @@ class Populate:
         self.velocity = v
         self.position = p
                 
-        if self.velocity.magnitude() <= 0.01:
+        if self.velocity.magnitude() <= 0.0075:
             self.dead = True
             return True
         else: 

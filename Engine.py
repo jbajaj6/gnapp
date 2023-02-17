@@ -20,9 +20,10 @@ def collide(pos, vel, dt):
         hit = True
 
     if hit:
+        randomness = 0.004
         pos -= vel * dt
-        Nn.rotate((0.5-random())*0.004)
-        speed_kept = 1-(0.2*abs(vel.normalize().dot(Nn))+0.004*random())
+        Nn.rotate((0.5-random())*randomness)
+        speed_kept = 1-(0.2*abs(vel.normalize().dot(Nn))+randomness*random())
         vel += 2*(Nn*abs(vel.dot(Nn)))*speed_kept
 
     return (pos, vel)
@@ -36,8 +37,8 @@ def checkInHole(pos, vel):
 
 
 def tick(forces, mass, velocity, position, dt):
-    if checkInHole(position, velocity):
-        return (hole_pos, Vec(0, 0, 0))
+    # if checkInHole(position, velocity):
+    #     return (hole_pos, Vec(0, 0, 0))
 
     position, velocity = collide(position, velocity, dt)
 

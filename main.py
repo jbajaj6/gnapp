@@ -10,7 +10,7 @@ velocity = Vec(0, 0, 0)
 tT = 0
 
 epoch = 0  
-gna = GNA(.01, [500, 250, 125, 63, 32, 16, 8, 4, 2], Populate, 1, False)
+gna = GNA(.005, 35, 350, Populate, 0.5, False)
 
 def update():
     """ Will be called as many times as possible. """
@@ -29,7 +29,6 @@ if __name__ == '__main__':
     # DrawBG()
     WindowSingleton()
 
-    # TODO: only add drawing changes to callstack when update is about to be called
     timeSinceUpdate = time()
     _FPS = 30
     _SPF = 1/_FPS # seconds per frame refresh
